@@ -1,0 +1,96 @@
+.dashboard-container {
+    /* Removed padding to allow header to span full width */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+}
+
+.action-button {
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin: 20px;
+}
+
+.expense-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.summary-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+}
+
+/* Add spacing below the header */
+.header-container+.dashboard-container>* {
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .action-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .summary-cards {
+        flex-direction: column;
+    }
+}
+
+.table {
+    width: 100vw;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-align: left;
+
+    th,
+    td {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    @media (max-width: 768px) {
+        display: block;
+
+        thead {
+            display: none;
+        }
+
+        tr {
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        td {
+            display: block;
+            text-align: right;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 0.5rem;
+            font-weight: bold;
+            text-align: left;
+        }
+    }
+}
