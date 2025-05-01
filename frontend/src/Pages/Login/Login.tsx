@@ -33,7 +33,6 @@ const Login = () => {
   }
 
 
-
   return (
     <div className="login-container">
       <form className="login-form">
@@ -46,7 +45,7 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" placeholder="Enter your password" required />
         </div>
-        <button type="submit" onClick={handleSubmit} className="login-button">Login</button>
+        <button type="submit" onClick={handleSubmit} className="login-button">SignIn</button>
         <p className="signup-link">
           Don't have an account? <a href="/signup">Sign up</a>
         </p>

@@ -102,7 +102,6 @@ const editExpense = async (_id: number, expense: any) => {
 }
 
 const getExpenseTotalByCategory = async (email: string) => {
-    console.log("Email in getExpenseTotalByCategory", email);
     const response = await fetch(`http://localhost:3001/api/expenses/totalByCategory`, {
         method: 'POST',
         headers: {

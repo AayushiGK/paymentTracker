@@ -2,45 +2,66 @@ import React, { useState, useEffect } from 'react';
 import Cards from '../../components/Card/Card';
 import ExpenseModal from '../../components/ExpenseModal/ExpenseModal';
 import Header from '../../components/Header/Header';
-import { addExpense, getExpenseTotalByCategory } from '../../utilities/api';
+import { addExpense, getExpenses, getExpenseTotalByCategory } from '../../utilities/api';
 import './Dashboard.scss';
 import ExpenseTable from './ExpenseTable';
 
 const Dashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [expenses, setExpenses] = useState<{ amount: number; description: string, category: string, date: any }[]>([]);
-    const email = sessionStorage.getItem('email');
     const [expenseCategoryTotal, setExpenseCategoryTotal] = useState<{ [key: string]: number }>({});
 
+    const email = sessionStorage?.getItem('email');
+    const token = sessionStorage?.getItem('token');
 
-    const addExpenses = (expense: any) => {
+    const addExpenseHandler = (expense: any) => {
         setExpenses((prev) => [...prev, { ...expense, id: Date.now() }]);
-        email && addExpense(email, expense);
-        console.log("Expense added successfully");
-    };
-
-
-    useEffect(() => {
-        console.log(email)
-        if (email) {
+        email && addExpense(email, expense).then(() => {
+            // re-fetch categorized totals after adding a new expense
             getExpenseTotalByCategory(email)
                 .then((data) => {
-                    console.log("Fetched expenses:", data);
                     const categoryTotals = data.reduce((acc: { [key: string]: number }, item: { _id: string, totalAmount: number }) => {
                         acc[item._id] = item.totalAmount;
                         return acc;
                     }, {});
-                    console.log("Category totals:", categoryTotals);
-                    setExpenseCategoryTotal(categoryTotals);
+                    setExpenseCategoryTotal(categoryTotals); // Update the categorized totals
+                })
+                .catch((error) => {
+                    console.error("Error fetching updated categorized totals:", error);
+                });
+        })
+            .catch((error) => {
+                console.error("Error adding expense:", error);
+            });
+    };
 
+    useEffect(() => {
+        if (email) {
+            // Fetch all expenses
+            getExpenses(email, token as string)
+                .then((data) => {
+                    setExpenses(data); // Set the fetched expenses
                 })
                 .catch((error) => {
                     console.error("Error fetching expenses:", error);
                 });
+
+            // Fetch categorized totals
+            getExpenseTotalByCategory(email)
+                .then((data) => {
+                    const categoryTotals = data.reduce((acc: { [key: string]: number }, item: { _id: string, totalAmount: number }) => {
+                        acc[item._id] = item.totalAmount;
+                        return acc;
+                    }, {});
+                    setExpenseCategoryTotal(categoryTotals); // Set the categorized totals
+                })
+                .catch((error) => {
+                    console.error("Error fetching categorized totals:", error);
+                });
         } else {
             console.error("Email is null. Cannot fetch expenses.");
         }
-    }, [])
+    }, [email, token]);
 
     const totalCategoryExpenses = Object.values(expenseCategoryTotal).reduce((sum, value) => sum + value, 0);
 
@@ -61,27 +82,28 @@ const Dashboard = () => {
                             label="Categorized Expenses"
                             content={
                                 Object.entries(expenseCategoryTotal).length > 0 ? (
-                                    <ul>
+                                    <span><ul>
                                         {Object.entries(expenseCategoryTotal).map(([category, total]) => (
                                             <li key={category}>
                                                 {category}: ${total}
                                             </li>
                                         ))}
                                     </ul>
+                                    </span>
                                 ) : (
                                     "No categorized expenses"
                                 )
                             }
                         />
-                        <Cards label="Recent Expenses" content={expenses.length > 0 ? expenses[expenses.length - 1].description : "No recent expenses"} />
+                        <Cards label="Recent Expenses" content={expenses.length > 0 ? `$${expenses[expenses.length - 1].amount} - ${expenses[expenses.length - 1].description}` : "No recent expenses"} />
                     </div>
                 </section>
-                <ExpenseTable />
+                <ExpenseTable expenses={expenses} />
                 {isModalOpen && (
                     <ExpenseModal
                         show={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                        onSubmit={addExpenses}
+                        onSubmit={addExpenseHandler}
                     />
 
                 )}

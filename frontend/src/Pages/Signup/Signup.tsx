@@ -4,7 +4,6 @@ import './Signup.scss';
 
 const Signup = () => {
 
-
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
         const firstName = (document.getElementById("firstName") as HTMLInputElement).value;
@@ -58,7 +57,7 @@ const Signup = () => {
                     <label htmlFor="confirm-password">Confirm Password</label>
                     <input type="password" id="confirm-password" placeholder="Confirm your password" required />
                 </div>
-                <button type="submit" onClick={handleSignup} className="signup-button">Sign Up</button>
+                <button type="submit" onClick={handleSignup} className="signup-button">Sign-Up</button>
                 <p className="login-link">
                     Already have an account? <a href="/login">Go back to Login</a>
                 </p>

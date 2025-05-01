@@ -41,6 +41,7 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ expense, show, onClose, onS
                 <h2 className="modal-title">Add New Expense</h2>
                 <form onSubmit={handleSubmit} className="modal-form">
                     <input
+                        aria-label="amount"
                         type="number"
                         name="amount"
                         placeholder="Amount"
@@ -49,6 +50,7 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ expense, show, onClose, onS
                         required
                     />
                     <input
+                        aria-label="category"
                         type="text"
                         name="category"
                         placeholder="Category"
@@ -57,6 +59,7 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ expense, show, onClose, onS
                         required
                     />
                     <input
+                        aria-label="date"
                         type="date"
                         name="date"
                         value={expenseState.date}
@@ -64,13 +67,14 @@ const ExpenseModal: React.FC<ExpenseModalProps> = ({ expense, show, onClose, onS
                         required
                     />
                     <textarea
+                        aria-label="description"
                         name="description"
                         placeholder="Description"
                         value={expenseState.description}
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit" className="modal-submit">Add Expense</button>
+                    <button type="submit" className="modal-submit">Submit</button>
                 </form>
             </div>
         </div>

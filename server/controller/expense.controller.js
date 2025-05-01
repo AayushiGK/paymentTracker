@@ -3,6 +3,7 @@
 const ExpenseModal = require('../models/expenses.js');
 
 const addExpense = (req, res) => {
+    console.log("Email in addExpense ------ ", req.body);
     try {
         const { amount, description, category, date, email } = req.body;
 
@@ -42,9 +43,11 @@ const editExpense = (req, res) => {
 
 const viewExpenses = (req, res) => {
     try {
-        const { userId } = req.params;
-
-        ExpenseModal.find({ userId })
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required to fetch expenses.' });
+        }
+        ExpenseModal.find({ email })
             .then((result) => {
                 res.status(200).json(result);
             }).catch((err) => {
@@ -70,10 +73,7 @@ const deleteExpense = (req, res) => {
 }
 
 const getExpenseTotalByCategory = (req, res) => {
-
-    console.log("Email in totalByCategory", req.body);
     try {
-        console.log('getExpenseTotalByCategory', req.body);
         const { email } = req.body;
 
         ExpenseModal.aggregate([
