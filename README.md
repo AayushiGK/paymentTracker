@@ -1,4 +1,6 @@
 For starting we need to keep the MongoDB open for successfull setup. (As its an online DB)
+https://cloud.mongodb.com/v2/67f767e57bfbe13ddefe6107#/metrics/replicaSet/67f7693ad8be76364302707d/explorer/bloomenergy/expenses/find
+
 ## steps to install dependencies
 `npm i` in both the frontend and server folders
 
