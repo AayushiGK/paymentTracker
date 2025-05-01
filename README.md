@@ -1,11 +1,14 @@
-## RUN frontend
-`npm run dev`
-
-## RUN server
-`node index.js`
 
 ## steps to install dependencies
-`npm i` in both frontend and server folder
+`npm i` in both the frontend and server folders
+
+## RUN frontend + Test cases
+`npm run dev`
+`npm test`
+
+## RUN server + Test cases
+`node index.js`
+`npx jest`
 
 ## Completed Task So far 
 Project: Expense Tracker
@@ -13,14 +16,15 @@ Project: Expense Tracker
 Frontend | React
     Features:
     - User authentication (sign up, login, logout)
-    - Dashboard to display total expenses, categorized expenses, and recent expenses
+    - Dashboard to display total expenses, categorised expenses, and recent expenses
     - Form to add new expenses with fields for amount, category, date, and description
+    - Filter and search functionality to view expenses by category, date range, etc.
     - Responsive design to ensure usability on different devices
 
 Backend | Node.js with Express
     Features:
     - RESTful APIs for user authentication, expense management (CRUD operations)
-    - Middleware for authentication and authorization
+    - Middleware for authentication and authorisation
     - Data validation and error handling
 
 Database | MongoDb
@@ -28,12 +32,18 @@ Database | MongoDb
 
 Additional Features:
     Security | Implement JWT (JSON Web Tokens) for secure authentication
-
+    Testing | Write unit tests for both the frontend and backend
 
 ## Remaing 
-    Frontend | Filter and search functionality to view expenses by category, date range, etc.
-    Testing | Write unit and integration tests for both frontend and backend
-    Stretch Goals:
-        WebSocket for Online Users:
-        Implement a WebSocket connection to track the total number of online users in real-time.
-        Display the number of online users on the dashboard.
+    Stretch Goals: WebSocket for Online Users
+    (Just an Idea on how to make it work)
+        Node
+        - Install websocket `npm install ws` and make use of it in the app (Node)
+        - We can count the online use as a counter functionality 
+            wss.on('connection', (ws) => { onlineUser++: ...........})
+            wss.on('close', (ws) => { onlineUser--: ...........})
+
+        frontend
+        - Set up the websocket connection `const socketConnect = new websocket('serverLink')`
+        - Create a state and update it with the useEffect to display it on the UI using the state.
+    
