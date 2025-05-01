@@ -1,4 +1,4 @@
-
+For starting we need to keep the MongoDB open for successfull setup. (As its an online DB)
 ## steps to install dependencies
 `npm i` in both the frontend and server folders
 
